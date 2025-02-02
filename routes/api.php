@@ -24,3 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * Register a new user.
  */
 Route::post('/register', [AuthController::class, 'register']);
+
+/**
+ * Log in a user with the provided credentials.
+ */
+Route::post('/login', [AuthController::class, 'login']);

@@ -37,4 +37,32 @@ class AuthController extends Controller
         
         return response()->json($user);
     }
+
+    /**
+     * Log in a user with the provided credentials.
+     *
+     * Provided credentials include:
+     * - email
+     * - password
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            return response()->json("error", 401);
+        }
+
+        $token = $user->createToken('token')->plainTextToken;
+        
+        return response()->json($token);
+    }
 }
