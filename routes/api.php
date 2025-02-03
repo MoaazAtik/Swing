@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 /**
  * Get the current authenticated user.
+ * Limit requests from user to the userLimit (defined in AppServiceProvider).
  */
-Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
+Route::middleware(['auth:sanctum', 'throttle:userLimit'])
+    ->get('/user', [AuthController::class, 'user']);
 
 /**
  * Register a new user.
