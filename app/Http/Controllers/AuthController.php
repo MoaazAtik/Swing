@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
+/**
+ * AuthController handles user registration and authentication.
+ */
 class AuthController extends Controller
 {
 
@@ -34,7 +36,7 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password']
         ]);
-        
+
         return response()->json($user);
     }
 
@@ -62,7 +64,18 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('token')->plainTextToken;
-        
+
         return response()->json($token);
+    }
+
+    /**
+     * Get the current authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 }
