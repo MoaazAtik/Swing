@@ -16,9 +16,9 @@ class AuthController extends Controller
      * Register a new user with the provided user details.
      *
      * Provided user details include:
-     * - name
-     * - email
-     * - password
+     * - name: maxium 255 characters
+     * - email: unique, of email address type
+     * - password: minimum 8 characters
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -26,9 +26,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8'
         ]);
 
         $user = User::create([
@@ -44,7 +44,7 @@ class AuthController extends Controller
      * Log in a user with the provided credentials.
      *
      * Provided credentials include:
-     * - email
+     * - email: of email address type
      * - password
      *
      * @param  \Illuminate\Http\Request  $request
@@ -53,7 +53,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|string',
+            'email' => 'required|email',
             'password' => 'required|string'
         ]);
 
